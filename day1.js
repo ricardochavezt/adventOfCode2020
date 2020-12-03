@@ -23,7 +23,14 @@ function find2020_3(numbers) {
     for (let i = 0; i < numbers.length; i++) {
         for (let j = i+1; j < numbers.length; j++) {
             for (let k = j+1; k < numbers.length; k++) {
-                
+                let sum = numbers[i] + numbers[j] + numbers[k];
+                if (sum >= 2020) {
+                    if (sum == 2020) {
+                        console.log("The numbers are", numbers[i], "*", numbers[j], "*", numbers[k], "=", numbers[i]*numbers[j]*numbers[k]);
+                        return;
+                    }
+                    break;
+                }
             }
         }
     }
@@ -31,4 +38,4 @@ function find2020_3(numbers) {
 
 let numbers = [];
 
-rl.on('line', line => numbers.push(parseInt(line))).on('close', () => find2020(numbers));
+rl.on('line', line => numbers.push(parseInt(line))).on('close', () => find2020_3(numbers));
