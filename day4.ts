@@ -1,4 +1,3 @@
-import { parse } from "path";
 import { createInterface } from "readline";
 
 const rl = createInterface({input: process.stdin});
