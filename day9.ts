@@ -33,6 +33,22 @@ function findInvalidNumber(preambleLength: number, data: number[]): [number, num
     return [-1, -1];
 }
 
+function findWeakness(sum: number, data: number[]): number {
+    for (let size = 2; size < data.length; size++) {
+        for (let index = 0; index < data.length-size; index++) {
+            if (data.slice(index, index+size).reduce((a, c) => a + c) == sum) {
+                let max = 0, min = Infinity;
+                data.slice(index, index + size).forEach(n => {
+                    if (n > max) max = n;
+                    if (n < min) min = n;
+                });
+                return max + min;
+            }
+        }
+    }
+    return -1;
+}
+
 const rl = createInterface({input: process.stdin});
 
 let data: number[] = [];
@@ -44,5 +60,16 @@ rl.on("line", line => data.push(parseInt(line))).on("close", () => {
         console.log("No invalid data found");
     } else {
         console.log("Invalid number found:", invalidNumber);
+        let weakness = findWeakness(invalidNumber[1], data.slice(0, invalidNumber[0]));
+        if (weakness != -1) {
+            console.log("Weakness found:", weakness);
+        } else {
+            weakness = findWeakness(invalidNumber[1], data.slice(invalidNumber[0]+1));
+            if (weakness != -1) {
+                console.log("Weakness found:", weakness);
+            } else {
+                console.log("No weakness found");
+            }
+        }
     }
 })
