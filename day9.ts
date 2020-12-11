@@ -19,18 +19,18 @@ function checkNumber(numberToCheck: number, possible: number[]): boolean {
     return false;
 }
 
-function findInvalidNumber(preambleLength: number, data: number[]): number {
+function findInvalidNumber(preambleLength: number, data: number[]): [number, number] {
     if (preambleLength >= data.length) {
-        return -1;
+        return [-1, -1];
     }
 
     for (let endIndex = preambleLength; endIndex < data.length; endIndex++) {
         if (checkNumber(data[endIndex], data.slice(endIndex-preambleLength, endIndex))){
             continue;
         }
-        return data[endIndex];
+        return [endIndex, data[endIndex]];
     }
-    return -1;
+    return [-1, -1];
 }
 
 const rl = createInterface({input: process.stdin});
@@ -40,7 +40,7 @@ let data: number[] = [];
 rl.on("line", line => data.push(parseInt(line))).on("close", () => {
     const preambleLength = parseInt(process.argv[2]);
     let invalidNumber = findInvalidNumber(preambleLength, data);
-    if (invalidNumber == -1) {
+    if (invalidNumber[0] == -1) {
         console.log("No invalid data found");
     } else {
         console.log("Invalid number found:", invalidNumber);
